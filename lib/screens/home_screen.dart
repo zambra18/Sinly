@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
+import '../services/auth_store.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -31,10 +32,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userName = AuthStore.loggedInName ?? 'Usuario';
+
     return Scaffold(
       backgroundColor: const Color(0xFF5B3CC4),
       appBar: AppBar(
-        title: Image.asset('assets/images/SinlyLogo.png', height: 40),
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
@@ -44,42 +46,49 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
-      body: Center(
+      body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(30),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.white.withOpacity(0.2)),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  const SizedBox(height: 20),
+                  Image.asset('assets/images/SinlyLogo.png', height: 80),
+                  const SizedBox(height: 40),
+                  Text(
+                    'Hola,',
+                    style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 24),
+                  ),
+                  Text(
+                    userName,
+                    style: const TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 50),
+                  Text(
+                    'Tu saldo disponible es:',
+                    style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 18),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    '\$${currentBalance.toStringAsFixed(2)}',
+                    style: const TextStyle(color: Colors.white, fontSize: 56, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Text('Saldo Actual', style: TextStyle(color: Colors.white70, fontSize: 18)),
-                    const SizedBox(height: 10),
-                    Text('\$${currentBalance.toStringAsFixed(2)}', 
-                      style: const TextStyle(color: Colors.white, fontSize: 48, fontWeight: FontWeight.bold)
-                    ),
-                    const SizedBox(height: 40),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        _glassButton(icon: Icons.remove, color: Colors.redAccent, onPressed: () => _subtract(10.0)),
-                        _glassButton(icon: Icons.refresh, color: Colors.blueAccent, onPressed: _reset),
-                        _glassButton(icon: Icons.add, color: Colors.greenAccent, onPressed: () => _add(10.0)),
-                      ],
-                    )
+                    _glassButton(icon: Icons.remove, color: Colors.redAccent, onPressed: () => _subtract(10.0)),
+                    _glassButton(icon: Icons.refresh, color: Colors.blueAccent, onPressed: _reset),
+                    _glassButton(icon: Icons.add, color: Colors.greenAccent, onPressed: () => _add(10.0)),
                   ],
                 ),
-              ),
-            ),
+              )
+            ],
           ),
         ),
       ),
