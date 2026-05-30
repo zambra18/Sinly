@@ -17,7 +17,7 @@ class InfoScreen extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(20.0),
           child: Text(
-            'Sinly es una aplicación de micro ahorro creado por Luis Zambrano '\
+            'Sinly es una aplicación de micro ahorro creado por Luis Zambrano '
             'para que ahorres y no te gastes todo el dinero, la verdad no me importa '
             'solo quiero que lo uses para ganar con las comisiones.',
             style: TextStyle(color: Colors.white70, fontSize: 18),
